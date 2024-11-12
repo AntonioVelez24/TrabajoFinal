@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &31434482 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5439212184748432775, guid: 198c63ebb5bc8a1408700e65b965178a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1655676152}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &35607085
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +729,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 863486676}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!4 &653755927 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5439212184748432775, guid: 198c63ebb5bc8a1408700e65b965178a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8360421719159446410}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &863486675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,7 +1110,7 @@ MonoBehaviour:
   playerHealth: 15
   currentSpeed: 0
   energy: 30
-  cameraSensitivity: 1000
+  cameraSensitivity: 10
   playerCamera: {fileID: 1621506133}
 --- !u!54 &1016294032
 Rigidbody:
@@ -1125,7 +1137,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &1068997744
 GameObject:
@@ -1245,6 +1257,7 @@ GameObject:
   - component: {fileID: 1139058179}
   - component: {fileID: 1139058178}
   - component: {fileID: 1139058182}
+  - component: {fileID: 1139058183}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -1332,7 +1345,7 @@ Transform:
   m_GameObject: {fileID: 1139058177}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.5, y: 4.32, z: 157}
+  m_LocalPosition: {x: -30, y: 4.32, z: 157}
   m_LocalScale: {x: 6.4094, y: 6.4094, z: 6.4094}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1350,13 +1363,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168a8bc406ec13940896c66a6103d215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkPoints: []
-  speed: 0
-  energy: 0
-  restingTime: 0
-  timer: 0
-  positionToMove: {x: 0, y: 0}
-  speedMove: 0
+  walkPoints:
+  - {fileID: 653755927}
+  - {fileID: 1839243469}
+  - {fileID: 1238805547}
+  - {fileID: 31434482}
+  speed: 10
+--- !u!54 &1139058183
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139058177}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!4 &1238805547 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5439212184748432775, guid: 198c63ebb5bc8a1408700e65b965178a,
+    type: 3}
+  m_PrefabInstance: {fileID: 445212861}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1288751007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,7 +1513,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1016294031}
         m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: ReadRunButton
+        m_MethodName: ReadCameraMovement
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1654,7 +1699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1621506131}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23439941, y: -0.000000008363508, z: 0.0000000020165831, w: 0.9721404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.0630857, z: 0.92329377}
   m_ConstrainProportionsScale: 0
@@ -1878,6 +1923,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 863486676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1839243469 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5439212184748432775, guid: 198c63ebb5bc8a1408700e65b965178a,
+    type: 3}
+  m_PrefabInstance: {fileID: 497146270}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1936269890
 GameObject:
   m_ObjectHideFlags: 0

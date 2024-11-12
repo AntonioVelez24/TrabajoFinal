@@ -8,11 +8,7 @@ public class EnemyControl : MonoBehaviour
 {
     [SerializeField] private Transform[] walkPoints;
     [SerializeField] private float speed;
-    public float energy;
-    public float restingTime;
-    public float timer;
-    public Vector2 positionToMove;
-    public float speedMove;
+    private Vector3 positionToMove;
     private int currentPoint = 0;
     // Start is called before the first frame update
     void Start()
@@ -24,28 +20,30 @@ public class EnemyControl : MonoBehaviour
     void Update()
     {
         Transform target = walkPoints[currentPoint];
-        while (Vector3.Distance(transform.position, target.position) > 0.1f)
+   
+        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+
+        Vector3 direction = target.position - transform.position;
+        if (direction != Vector3.zero)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        }            
-        if (currentPoint < walkPoints.Length - 1)
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * speed);
+        }
+
+        if (Vector3.Distance(transform.position, target.position) < 0.1f)
         {
             currentPoint = currentPoint + 1;
         }
-        else
+        if (walkPoints.Length <= currentPoint)
         {
             currentPoint = 0;
         }
     }
-    public void SetNewPosition(Vector2 newPosition)
-    {
-        positionToMove = newPosition;
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            
+            GameControl.Instance.GameOver();
         }
     }
 }

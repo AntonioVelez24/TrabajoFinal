@@ -5,6 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
 {
+    public static GameControl Instance;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         
@@ -13,15 +26,15 @@ public class GameControl : MonoBehaviour
     {
         
     }
-    void WinGame()
+    public void WinGame()
     {
         SceneManager.LoadScene("Victory");
     }
-    void GameOver()
+    public void GameOver()
     {
         SceneManager.LoadScene("GameOver");
     }
-    void PauseGame()
+    public void PauseGame()
     {
 
     }

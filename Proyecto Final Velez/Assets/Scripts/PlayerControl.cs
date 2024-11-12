@@ -12,10 +12,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float cameraSensitivity;
     [SerializeField] private Camera playerCamera;
 
-    private float PlayerRotation;
-    private float CameraRotation;
-    private float currentYRotation;
-    private float currentXRotation;
+    private float currentYRotation = 0f;
+    private float currentXRotation = 0f;
 
     private float normalSpeed = 8f;
     private float runningSpeed = 16f;
@@ -40,22 +38,32 @@ public class PlayerControl : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         currentSpeed = normalSpeed;
-        PlayerRotation = 0f;
-        CameraRotation = 0f;
     }
 
     void Update()
     {
-        _rigidbody.velocity = new Vector3(currentSpeed * xDirection, _rigidbody.velocity.y, currentSpeed * zDirection);
+        MovePlayer();
+        CameraRotation();              
+    }
+    private void MovePlayer()
+    {       
+        Vector3 movement = new Vector3(xDirection, 0f, zDirection);
+        movement = transform.TransformDirection(movement); 
+        _rigidbody.velocity = new Vector3(movement.x * currentSpeed, _rigidbody.velocity.y, movement.z * currentSpeed);
+    }
+    private void CameraRotation()
+    {
+        float rotationX = currentXRotation * cameraSensitivity * Time.deltaTime;
+        rotationX = Mathf.Clamp(rotationX, -45f, 45f); 
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
 
-        CameraRotation = currentYRotation * cameraSensitivity * Time.deltaTime;
-        CameraRotation = Mathf.Clamp(CameraRotation, -45, 45);
-        playerCamera.transform.localRotation = Quaternion.Euler(CameraRotation, 0f, 0f);
+        transform.Rotate(Vector3.up * currentYRotation * cameraSensitivity * Time.deltaTime);
     }
     void PlayerXRotation(Vector2 cameraMovement)
     {
-        currentXRotation = cameraMovement.x * cameraSensitivity * Time.deltaTime;
+        currentXRotation -= cameraMovement.y * cameraSensitivity * Time.deltaTime;
         currentXRotation = Mathf.Clamp(currentXRotation, -45f, 45f);
+        currentYRotation = cameraMovement.x;
     }
     public void ReadMovementX(InputAction.CallbackContext context)
     {
