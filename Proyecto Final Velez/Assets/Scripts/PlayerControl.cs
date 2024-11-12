@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private float playerHealth;
@@ -11,6 +12,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float cameraSensitivity;
     [SerializeField] private Camera playerCamera;
 
+    private float PlayerRotation;
     private float CameraRotation;
     private float currentYRotation;
     private float currentXRotation;
@@ -22,13 +24,26 @@ public class PlayerControl : MonoBehaviour
     private float zDirection;
     private Rigidbody _rigidbody;
     private bool isRunning = false;
-    // Start is called before the first frame update
-    void Start()
+
+    public event Action<Vector2> OnCameraMovement;
+
+    private void OnEnable()
+    {
+        OnCameraMovement += PlayerXRotation;
+    }
+
+    private void OnDisable()
+    {
+        OnCameraMovement -= PlayerXRotation;
+    }
+    private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         currentSpeed = normalSpeed;
+        PlayerRotation = 0f;
+        CameraRotation = 0f;
     }
-    // Update is called once per frame
+
     void Update()
     {
         _rigidbody.velocity = new Vector3(currentSpeed * xDirection, _rigidbody.velocity.y, currentSpeed * zDirection);
@@ -37,9 +52,10 @@ public class PlayerControl : MonoBehaviour
         CameraRotation = Mathf.Clamp(CameraRotation, -45, 45);
         playerCamera.transform.localRotation = Quaternion.Euler(CameraRotation, 0f, 0f);
     }
-    void PlayerRotation()
+    void PlayerXRotation(Vector2 cameraMovement)
     {
-
+        currentXRotation = cameraMovement.x * cameraSensitivity * Time.deltaTime;
+        currentXRotation = Mathf.Clamp(currentXRotation, -45f, 45f);
     }
     public void ReadMovementX(InputAction.CallbackContext context)
     {
@@ -53,23 +69,25 @@ public class PlayerControl : MonoBehaviour
     {
         if (context.performed)
         {
-            
+
         }
     }
     public void ReadRunButton(InputAction.CallbackContext context)
-    { 
+    {
         if (context.performed)
         {
             currentSpeed = runningSpeed;
+            isRunning = true;
         }
         else
         {
             currentSpeed = normalSpeed;
+            isRunning = false;
         }
     }
-    public void ReadCameraMovement (InputAction.CallbackContext context)
+    public void ReadCameraMovement(InputAction.CallbackContext context)
     {
-        float mouseX = context.ReadValue<float>() * cameraSensitivity * Time.deltaTime;
-        transform.Rotate(Vector3.up * mouseX);
+        Vector2 cameraMovement = context.ReadValue<Vector2>();
+        OnCameraMovement?.Invoke(cameraMovement);
     }
 }
