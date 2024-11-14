@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class GameControl : MonoBehaviour
 {
     public static GameControl Instance;
+
+    public int score;
+
     private void Awake()
     {
         if (Instance == null)
@@ -39,6 +42,10 @@ public class GameControl : MonoBehaviour
         SceneManager.LoadScene("GameOver");
     }
     public void PauseGame()
+    {
+
+    }
+    public void ExitGame()
     {
 
     }

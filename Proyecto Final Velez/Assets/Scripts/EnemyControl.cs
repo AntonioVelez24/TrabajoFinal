@@ -8,6 +8,9 @@ public class EnemyControl : MonoBehaviour
 {
     [SerializeField] private Transform[] walkPoints;
     [SerializeField] private float enemySpeed;
+    [SerializeField] private float detectionRange;
+    [SerializeField] private float detectionAngle;
+    [SerializeField] private Transform detectedPlayer;
     //[SerializeField] private float enemyDamage;
     private Vector3 positionToMove;
     private int currentPoint = 0;
@@ -21,13 +24,6 @@ public class EnemyControl : MonoBehaviour
     void Update()
     {
         Patrol();
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            GameControl.Instance.GameOver();
-        }
     }
     private void Patrol()
     {

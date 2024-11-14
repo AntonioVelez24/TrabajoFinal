@@ -2,20 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VolumeValuesSO : MonoBehaviour
+public class VolumeValuesSO : ScriptableObject
 {
-    [SerializeField] private float MasterVolume;
-    [SerializeField] private float MusicVolume;
-    [SerializeField] private float SfxVolume;
+    [SerializeField] public float MasterVolume = 0.5f;
+    [SerializeField] public float MusicVolume = 0.5f;
+    [SerializeField] public float SfxVolume = 0.5f;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

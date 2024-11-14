@@ -8,7 +8,7 @@ using Cinemachine;
 using UnityEngine.Experimental.GlobalIllumination;
 public class PlayerControl : MonoBehaviour
 {
-    [SerializeField] private float playerHealth;
+    [SerializeField] public float playerHealth;
     [SerializeField] private float currentSpeed;
     [SerializeField] private float energy;
     [SerializeField] private float cameraSensitivity;
@@ -63,6 +63,7 @@ public class PlayerControl : MonoBehaviour
         currentXRotation -= cameraYMovement.y * cameraSensitivity * Time.deltaTime;
         currentXRotation = Mathf.Clamp(currentXRotation, -45f, 45f);
         playerCamera.transform.localRotation = Quaternion.Euler(currentXRotation, 0f, 0f);
+        playerLight.transform.localRotation = Quaternion.Euler(currentXRotation, 0f, 0f);
     }
     void PlayerRotation(Vector2 cameraXMovement)
     {
@@ -86,17 +87,17 @@ public class PlayerControl : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 5f))
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 15f))
         {
             ItemControl interactable = hit.collider.GetComponent<ItemControl>();
 
             if (interactable != null)
             {                
-                interactable.Interact();                  
+                interactable.Interact();
+                GameControl.Instance.score += 100;
             }
         }
     }
-
     public void ReadMovementX(InputAction.CallbackContext context)
     {
         xDirection = context.ReadValue<float>();
@@ -137,5 +138,15 @@ public class PlayerControl : MonoBehaviour
             playerLight.enabled = !playerLight.enabled;
         }
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            playerHealth = playerHealth - 10f;
+            if (playerHealth <= 0)
+            {
+                GameControl.Instance.GameOver();
+            }
+        }  
+    }
 }
