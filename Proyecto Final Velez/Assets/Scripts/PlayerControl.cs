@@ -16,8 +16,8 @@ public class PlayerControl : MonoBehaviour
     private float currentYRotation = 0f;
     private float currentXRotation = 0f;
 
-    private float normalSpeed = 8f;
-    private float runningSpeed = 16f;
+    private float normalSpeed = 15f;
+    private float runningSpeed = 25f;
 
     private float xDirection;
     private float zDirection;
@@ -41,6 +41,9 @@ public class PlayerControl : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         currentSpeed = normalSpeed;
+
+        LockCursor();
+
         CameraRotation(Vector2.zero);
     }
 
@@ -65,6 +68,19 @@ public class PlayerControl : MonoBehaviour
         currentYRotation = cameraXMovement.x;
         transform.Rotate(Vector3.up * currentYRotation * cameraSensitivity * Time.deltaTime);
     }
+    private void LockCursor()
+    {
+        if (Cursor.lockState != CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+    //private void UnlockCursor()
+    //{
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
+    //}
     public void ReadMovementX(InputAction.CallbackContext context)
     {
         xDirection = context.ReadValue<float>();
