@@ -30,4 +30,12 @@ public class AudioManager : MonoBehaviour
     {
         audioMixer.SetFloat("SFX", Mathf.Log10(volumeSO.SfxVolume) * 20);
     }
+    public void Mute()
+    {
+
+    }
+    public void Unmute()
+    {
+
+    }
 }

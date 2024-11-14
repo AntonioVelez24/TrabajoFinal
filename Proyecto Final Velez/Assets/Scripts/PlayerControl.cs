@@ -78,11 +78,11 @@ public class PlayerControl : MonoBehaviour
             Cursor.visible = false;
         }
     }
-    //private void UnlockCursor()
-    //{
-    //Cursor.lockState = CursorLockMode.None;
-    //Cursor.visible = true;
-    //}
+    private void UnlockCursor()
+    {
+    Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
+    }
     private void Colectitem()
     {
         RaycastHit hit;
@@ -138,7 +138,7 @@ public class PlayerControl : MonoBehaviour
             playerLight.enabled = !playerLight.enabled;
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -146,7 +146,8 @@ public class PlayerControl : MonoBehaviour
             if (playerHealth <= 0)
             {
                 GameControl.Instance.GameOver();
+                UnlockCursor();
             }
-        }  
+        }
     }
 }
