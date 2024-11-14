@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private float playerHealth;
@@ -27,43 +28,42 @@ public class PlayerControl : MonoBehaviour
 
     private void OnEnable()
     {
-        OnCameraMovement += PlayerXRotation;
+        OnCameraMovement += PlayerRotation;
+        OnCameraMovement += CameraRotation;
     }
 
     private void OnDisable()
     {
-        OnCameraMovement -= PlayerXRotation;
+        OnCameraMovement -= PlayerRotation;
+        OnCameraMovement -= CameraRotation;
     }
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         currentSpeed = normalSpeed;
+        CameraRotation(Vector2.zero);
     }
 
     void Update()
     {
-        MovePlayer();
-        CameraRotation();              
+        MovePlayer();            
     }
     private void MovePlayer()
     {       
-        Vector3 movement = new Vector3(xDirection, 0f, zDirection);
+        Vector3 movement = new Vector3(xDirection, transform.position.y , zDirection);
         movement = transform.TransformDirection(movement); 
         _rigidbody.velocity = new Vector3(movement.x * currentSpeed, _rigidbody.velocity.y, movement.z * currentSpeed);
     }
-    private void CameraRotation()
+    private void CameraRotation(Vector2 cameraYMovement)
     {
-        float rotationX = currentXRotation * cameraSensitivity * Time.deltaTime;
-        rotationX = Mathf.Clamp(rotationX, -45f, 45f); 
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
-
-        transform.Rotate(Vector3.up * currentYRotation * cameraSensitivity * Time.deltaTime);
-    }
-    void PlayerXRotation(Vector2 cameraMovement)
-    {
-        currentXRotation -= cameraMovement.y * cameraSensitivity * Time.deltaTime;
+        currentXRotation -= cameraYMovement.y * cameraSensitivity * Time.deltaTime;
         currentXRotation = Mathf.Clamp(currentXRotation, -45f, 45f);
-        currentYRotation = cameraMovement.x;
+        playerCamera.transform.localRotation = Quaternion.Euler(currentXRotation, 0f, 0f);
+    }
+    void PlayerRotation(Vector2 cameraXMovement)
+    {
+        currentYRotation = cameraXMovement.x;
+        transform.Rotate(Vector3.up * currentYRotation * cameraSensitivity * Time.deltaTime);
     }
     public void ReadMovementX(InputAction.CallbackContext context)
     {
