@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using UnityEngine.Experimental.GlobalIllumination;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private float playerHealth;
@@ -12,7 +13,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float energy;
     [SerializeField] private float cameraSensitivity;
     [SerializeField] private Camera playerCamera;
-
+    [SerializeField] private Light playerLight;
     private float currentYRotation = 0f;
     private float currentXRotation = 0f;
 
@@ -78,9 +79,24 @@ public class PlayerControl : MonoBehaviour
     }
     //private void UnlockCursor()
     //{
-        //Cursor.lockState = CursorLockMode.None;
-        //Cursor.visible = true;
+    //Cursor.lockState = CursorLockMode.None;
+    //Cursor.visible = true;
     //}
+    private void Colectitem()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 5f))
+        {
+            ItemControl interactable = hit.collider.GetComponent<ItemControl>();
+
+            if (interactable != null)
+            {                
+                interactable.Interact();                  
+            }
+        }
+    }
+
     public void ReadMovementX(InputAction.CallbackContext context)
     {
         xDirection = context.ReadValue<float>();
@@ -93,7 +109,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (context.performed)
         {
-
+            Colectitem();
         }
     }
     public void ReadRunButton(InputAction.CallbackContext context)
@@ -114,4 +130,12 @@ public class PlayerControl : MonoBehaviour
         Vector2 cameraMovement = context.ReadValue<Vector2>();
         OnCameraMovement?.Invoke(cameraMovement);
     }
+    public void ReadToggleFlashLight(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            playerLight.enabled = !playerLight.enabled;
+        }
+    }
+
 }

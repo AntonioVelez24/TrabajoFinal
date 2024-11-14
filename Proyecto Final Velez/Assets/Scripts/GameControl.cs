@@ -26,6 +26,10 @@ public class GameControl : MonoBehaviour
     {
         
     }
+    public void Play()
+    {
+        SceneManager.LoadScene("Game");
+    }
     public void WinGame()
     {
         SceneManager.LoadScene("Victory");

@@ -7,7 +7,8 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class EnemyControl : MonoBehaviour
 {
     [SerializeField] private Transform[] walkPoints;
-    [SerializeField] private float speed;
+    [SerializeField] private float enemySpeed;
+    //[SerializeField] private float enemyDamage;
     private Vector3 positionToMove;
     private int currentPoint = 0;
     // Start is called before the first frame update
@@ -19,15 +20,26 @@ public class EnemyControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Patrol();
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            GameControl.Instance.GameOver();
+        }
+    }
+    private void Patrol()
+    {
         Transform target = walkPoints[currentPoint];
-   
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+
+        transform.position = Vector3.MoveTowards(transform.position, target.position, enemySpeed * Time.deltaTime);
 
         Vector3 direction = target.position - transform.position;
         if (direction != Vector3.zero)
         {
             Quaternion rotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * speed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * enemySpeed);
         }
 
         if (Vector3.Distance(transform.position, target.position) < 0.1f)
@@ -37,13 +49,6 @@ public class EnemyControl : MonoBehaviour
         if (walkPoints.Length <= currentPoint)
         {
             currentPoint = 0;
-        }
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            GameControl.Instance.GameOver();
         }
     }
 }
