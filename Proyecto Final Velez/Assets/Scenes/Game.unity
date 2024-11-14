@@ -1638,7 +1638,7 @@ MonoBehaviour:
   enemySpeed: 15
   detectionRange: 10
   detectionAngle: 45
-  detectedPlayer: {fileID: 0}
+  detectedPlayer: {fileID: 1016294027}
 --- !u!54 &1139058183
 Rigidbody:
   m_ObjectHideFlags: 0

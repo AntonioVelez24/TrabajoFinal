@@ -14,6 +14,7 @@ public class EnemyControl : MonoBehaviour
     //[SerializeField] private float enemyDamage;
     private Vector3 positionToMove;
     private int currentPoint = 0;
+    private bool isPlayerDetected = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +23,17 @@ public class EnemyControl : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        Patrol();
+    {        
+        if (isPlayerDetected)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            Patrol();
+            DetectPlayer();
+        }
+        
     }
     private void Patrol()
     {
@@ -46,5 +56,34 @@ public class EnemyControl : MonoBehaviour
         {
             currentPoint = 0;
         }
+    }
+    private void DetectPlayer()
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, detectedPlayer.position);
+
+        Vector3 directionToPlayer = detectedPlayer.position - transform.position;
+        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+
+        if (distanceToPlayer <= detectionRange && angleToPlayer <= detectionAngle)
+        {
+            isPlayerDetected = true;
+        }
+        //else
+        //{
+            //isPlayerDetected = false;
+        //}
+    }
+    private void ChasePlayer()
+    {
+        Vector3 direction = detectedPlayer.position - transform.position;
+
+        transform.position = Vector3.MoveTowards(transform.position, detectedPlayer.position, enemySpeed * Time.deltaTime);
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * enemySpeed);
+        }
+
     }
 }
