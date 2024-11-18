@@ -23,7 +23,7 @@ public class PlayerControl : MonoBehaviour
     private float xDirection;
     private float zDirection;
     private Rigidbody _rigidbody;
-    private bool isRunning = false;
+    //private bool isRunning = false;
 
     public event Action<Vector2> OnCameraMovement;
 
@@ -94,7 +94,7 @@ public class PlayerControl : MonoBehaviour
             if (interactable != null)
             {                
                 interactable.Interact();
-                GameControl.Instance.score += 100;
+                GameManager.Instance.score += 100;
             }
         }
     }
@@ -118,12 +118,12 @@ public class PlayerControl : MonoBehaviour
         if (context.performed)
         {
             currentSpeed = runningSpeed;
-            isRunning = true;
+            //isRunning = true;
         }
         else
         {
             currentSpeed = normalSpeed;
-            isRunning = false;
+            //isRunning = false;
         }
     }
     public void ReadCameraMovement(InputAction.CallbackContext context)
@@ -145,7 +145,7 @@ public class PlayerControl : MonoBehaviour
             playerHealth = playerHealth - 10f;
             if (playerHealth <= 0)
             {
-                GameControl.Instance.GameOver();
+                GameManager.Instance.GameOver();
                 UnlockCursor();
             }
         }

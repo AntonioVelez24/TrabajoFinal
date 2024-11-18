@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameControl : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static GameControl Instance;
+    public static GameManager Instance;
 
     public int score;
 
@@ -43,10 +43,21 @@ public class GameControl : MonoBehaviour
     }
     public void PauseGame()
     {
-
+        Time.timeScale = 0f;
+    }
+    public void UnPauseGame()
+    {
+        Time.timeScale = 1f;
     }
     public void ExitGame()
     {
-
+        if (Application.isEditor)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
+        else
+        {
+            Application.Quit();
+        }
     }
 }
