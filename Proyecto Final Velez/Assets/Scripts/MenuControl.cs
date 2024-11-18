@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
+using DG.Tweening;
 
 public class MenuControl : MonoBehaviour
 {
@@ -14,13 +15,16 @@ public class MenuControl : MonoBehaviour
     [SerializeField] private GameObject audioPanel;
     [SerializeField] private GameObject exitPanel;
     [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject startText;
+    [SerializeField] private GameObject startText; 
 
+    public float scaleFactor = 1.2f;
     private bool startingGame = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

@@ -6,7 +6,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class UIControl : MonoBehaviour
 {
-    [SerializeField] private GameObject pausePanel;
+    //[SerializeField] private GameObject pausePanel;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI healthText;
     private PlayerControl playerControl;
@@ -20,16 +20,16 @@ public class UIControl : MonoBehaviour
     void Update()
     {
         UpdateHealthBar();
-        UpdateScoreText();
+        //UpdateScoreText();
     }
     //private void SetPausePanel(GameObject pausePanel)
     //{
     //pausePanel.SetActive(true);
     //}
-    private void UpdateScoreText()
-    {
-        scoreText.text = "Score: " + GameManager.Instance.score.ToString();
-    }
+    //private void UpdateScoreText()
+    //{
+        //scoreText.text = "Score: " + GameManager.Instance.score.ToString();
+    //}
     private void UpdateHealthBar()
     {
         healthText.text = "Health: " + playerControl.playerHealth.ToString();

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 using UnityEngine.Experimental.GlobalIllumination;
+using DG.Tweening;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] public float playerHealth;
@@ -24,6 +25,7 @@ public class PlayerControl : MonoBehaviour
     private float zDirection;
     private Rigidbody _rigidbody;
     //private bool isRunning = false;
+    private RaycastHit hit;
 
     public event Action<Vector2> OnCameraMovement;
 
@@ -85,8 +87,6 @@ public class PlayerControl : MonoBehaviour
     }
     private void Colectitem()
     {
-        RaycastHit hit;
-
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 15f))
         {
             ItemControl interactable = hit.collider.GetComponent<ItemControl>();
@@ -94,7 +94,18 @@ public class PlayerControl : MonoBehaviour
             if (interactable != null)
             {                
                 interactable.Interact();
-                GameManager.Instance.score += 100;
+                //GameManager.Instance.score += 100;
+            }
+        }
+    }
+    private void InteractWithDoor()
+    {
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 10f))
+        {
+            if (hit.collider.CompareTag("Door"))
+            {
+                hit.collider.gameObject.transform.transform.DOMove(hit.collider.gameObject.transform.transform.position + new Vector3(-8f, 0f, 8f), 1f);
+                hit.collider.gameObject.transform.DORotate(new Vector3(0f, 90f, 0f), 1f); 
             }
         }
     }
@@ -111,6 +122,7 @@ public class PlayerControl : MonoBehaviour
         if (context.performed)
         {
             Colectitem();
+            InteractWithDoor();
         }
     }
     public void ReadRunButton(InputAction.CallbackContext context)
