@@ -28,7 +28,7 @@ public class UIControl : MonoBehaviour
     //}
     //private void UpdateScoreText()
     //{
-        //scoreText.text = "Score: " + GameManager.Instance.score.ToString();
+    //scoreText.text = "Score: " + Game_Manager.Instance.score.ToString();
     //}
     private void UpdateHealthBar()
     {

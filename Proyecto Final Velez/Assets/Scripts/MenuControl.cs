@@ -14,10 +14,11 @@ public class MenuControl : MonoBehaviour
 
     [SerializeField] private GameObject audioPanel;
     [SerializeField] private GameObject exitPanel;
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject startText; 
+    [SerializeField] private CanvasGroup mainMenu;
+    [SerializeField] private GameObject startText;
+    [SerializeField] private CanvasGroup darkPanel;
+    [SerializeField] private AudioSource audioSource;
 
-    public float scaleFactor = 1.2f;
     private bool startingGame = false;
 
 
@@ -39,39 +40,51 @@ public class MenuControl : MonoBehaviour
             if (Input.anyKey)
             {
                 startText.SetActive(false);
-                mainMenu.SetActive(true);
+                mainMenu.DOFade(1, 2f).SetUpdate(true);
                 startingGame = true;
                 startCamera.Priority = 0;
                 menuCamera.Priority = 100;
+                audioSource.Play();
             }
         }
+    
     }
     public void OpenExitPanel()
     {
-        exitPanel.SetActive(true);
-        mainMenu.SetActive(false);
+        mainMenu.DOFade(0, 0.5f).SetUpdate(true);
+        MoveOpenPanel(exitPanel.GetComponent<RectTransform>());
+        darkPanel.DOFade(1, 0.5f).SetUpdate(true);
         menuCamera.Priority = 0;
         virtualCamera2.Priority = 100;
     }
     public void CloseExitPanel()
     {
-        exitPanel.SetActive(false);
-        mainMenu.SetActive(true);
+        mainMenu.DOFade(1, 0.5f).SetUpdate(true);
+        MoveClosePanel(exitPanel.GetComponent<RectTransform>());
+        darkPanel.DOFade(0, 0.5f).SetUpdate(true);
         menuCamera.Priority = 100;
         virtualCamera2.Priority = 0;
     }
     public void OpenAudioPanel()
     {
-        audioPanel.SetActive(true);
-        mainMenu.SetActive(false);
+        mainMenu.DOFade(0, 0.5f).SetUpdate(true);
+        MoveOpenPanel(audioPanel.GetComponent<RectTransform>());
         menuCamera.Priority = 0;
         virtualCamera1.Priority = 100;
     }
     public void CloseAudioPanel()
     {
-        audioPanel.SetActive(false);
-        mainMenu.SetActive(true);
+        mainMenu.DOFade(1, 0.5f).SetUpdate(true);
+        MoveClosePanel(audioPanel.GetComponent <RectTransform>());  
         menuCamera.Priority = 100;
         virtualCamera1.Priority = 0;
+    }
+    private void MoveOpenPanel(RectTransform rect)
+    {
+        rect.DOAnchorPosY(0, 1f);
+    }
+    private void MoveClosePanel(RectTransform rect)
+    {
+        rect.DOAnchorPosY(1140, 1f);
     }
 }

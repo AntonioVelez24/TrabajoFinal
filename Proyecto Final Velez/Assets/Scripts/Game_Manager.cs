@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class Game_Manager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static Game_Manager Instance;
 
     public int score;
 

@@ -94,7 +94,7 @@ public class PlayerControl : MonoBehaviour
             if (interactable != null)
             {                
                 interactable.Interact();
-                //GameManager.Instance.score += 100;
+                //GameControl.Instance.score += 100;
             }
         }
     }
@@ -157,7 +157,7 @@ public class PlayerControl : MonoBehaviour
             playerHealth = playerHealth - 10f;
             if (playerHealth <= 0)
             {
-                GameManager.Instance.GameOver();
+                Game_Manager.Instance.GameOver();
                 UnlockCursor();
             }
         }
