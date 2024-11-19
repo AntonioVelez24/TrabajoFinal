@@ -14,13 +14,18 @@ public class MenuControl : MonoBehaviour
 
     [SerializeField] private GameObject audioPanel;
     [SerializeField] private GameObject exitPanel;
-    [SerializeField] private CanvasGroup mainMenu;
     [SerializeField] private GameObject startText;
+
+    [SerializeField] private CanvasGroup mainMenu;
     [SerializeField] private CanvasGroup darkPanel;
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource thunderSource;
+
+
+    [SerializeField] private Light stormLight;
+    [SerializeField] private AnimationCurve customCurve;
 
     private bool startingGame = false;
-
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +49,8 @@ public class MenuControl : MonoBehaviour
                 startingGame = true;
                 startCamera.Priority = 0;
                 menuCamera.Priority = 100;
-                audioSource.Play();
+                musicSource.Play();
+                StartThunder();
             }
         }
     
@@ -86,5 +92,14 @@ public class MenuControl : MonoBehaviour
     private void MoveClosePanel(RectTransform rect)
     {
         rect.DOAnchorPosY(1140, 1f);
+    }
+    private void StartThunder()
+    {
+        stormLight.intensity = 0f;
+        Sequence stormSequence = DOTween.Sequence();
+        stormSequence.Append(stormLight.DOIntensity(150f, 0.4f).SetEase(customCurve));
+        stormSequence.Append(stormLight.DOIntensity(0f, 0.4f).SetEase(customCurve));
+        thunderSource.Play();
+        stormSequence.Play();
     }
 }
