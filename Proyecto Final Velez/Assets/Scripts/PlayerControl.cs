@@ -94,7 +94,7 @@ public class PlayerControl : MonoBehaviour
             if (interactable != null)
             {                
                 interactable.Interact();
-                //GameControl.Instance.score += 100;
+                Game_Manager.Instance.score += 100;
             }
         }
     }
@@ -154,7 +154,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            playerHealth = playerHealth - 10f;
+            playerHealth = playerHealth - 1f;
             if (playerHealth <= 0)
             {
                 Game_Manager.Instance.GameOver();

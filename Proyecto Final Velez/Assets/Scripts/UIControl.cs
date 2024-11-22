@@ -20,16 +20,16 @@ public class UIControl : MonoBehaviour
     void Update()
     {
         UpdateHealthBar();
-        //UpdateScoreText();
+        UpdateScoreText();
     }
     //private void SetPausePanel(GameObject pausePanel)
     //{
     //pausePanel.SetActive(true);
     //}
-    //private void UpdateScoreText()
-    //{
+    private void UpdateScoreText()
+    {
     //scoreText.text = "Score: " + Game_Manager.Instance.score.ToString();
-    //}
+    }
     private void UpdateHealthBar()
     {
         healthText.text = "Health: " + playerControl.playerHealth.ToString();
