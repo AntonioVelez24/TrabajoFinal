@@ -1,11 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
-using static Cinemachine.AxisState;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyControl : MonoBehaviour
 {
@@ -50,9 +44,8 @@ public class EnemyControl : MonoBehaviour
         if (agent.remainingDistance == 0f && !agent.pathPending) 
         {
             currentPoint = currentPoint + 1;
-            Debug.Log(currentPoint);
         } 
-        if(currentPoint >= walkPoints.Length)
+        if (currentPoint >= walkPoints.Length)
         {
             currentPoint = 0;
         }
@@ -79,12 +72,5 @@ public class EnemyControl : MonoBehaviour
         Vector3 direction = detectedPlayer.position - transform.position;
 
         agent.SetDestination(detectedPlayer.position);
-
-        if (direction != Vector3.zero)
-        {
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * enemySpeed);
-        }
-
     }
 }

@@ -1,11 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Cinemachine;
-using UnityEngine.Experimental.GlobalIllumination;
 using DG.Tweening;
 public class PlayerControl : MonoBehaviour
 {
@@ -18,12 +13,13 @@ public class PlayerControl : MonoBehaviour
     private float currentYRotation = 0f;
     private float currentXRotation = 0f;
 
-    private float normalSpeed = 15f;
-    private float runningSpeed = 25f;
+    private float normalSpeed = 6f;
+    private float runningSpeed = 10f;
 
     private float xDirection;
     private float zDirection;
     private Rigidbody _rigidbody;
+    //private bool isHiding = false;
     //private bool isRunning = false;
     private RaycastHit hit;
 
