@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float cameraSensitivity;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Light playerLight;
+    [SerializeField] private AudioSource _audioSource;
     private float currentYRotation = 0f;
     private float currentXRotation = 0f;
 
@@ -55,6 +56,15 @@ public class PlayerControl : MonoBehaviour
         Vector3 movement = new Vector3(xDirection, transform.position.y , zDirection);
         movement = transform.TransformDirection(movement); 
         _rigidbody.velocity = new Vector3(movement.x * currentSpeed, _rigidbody.velocity.y, movement.z * currentSpeed);
+        bool playerIsMoving = movement.x != 0 || movement.z != 0;
+        if (playerIsMoving && !_audioSource.isPlaying)
+        {
+            _audioSource.Play();
+        }
+        else if (!playerIsMoving && _audioSource.isPlaying) 
+        {
+            _audioSource.Stop();
+        }
     }
     private void CameraRotation(Vector2 cameraYMovement)
     {
