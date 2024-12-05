@@ -20,7 +20,7 @@ public class PlayerControl : MonoBehaviour
     private float xDirection;
     private float zDirection;
     private Rigidbody _rigidbody;
-    //private bool isHiding = false;
+    public bool isHiding = false;
     //private bool isRunning = false;
     private RaycastHit hit;
 
@@ -115,6 +115,19 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
+    private void Hide()
+    {
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 10f))
+        {
+            if (hit.collider.CompareTag("HidingArea"))
+            {
+                transform.position = hit.collider.transform.position;
+                transform.rotation = hit.collider.transform.rotation;
+                currentSpeed = 0f;
+                isHiding = true;
+            }
+        }
+    }
     public void ReadMovementX(InputAction.CallbackContext context)
     {
         xDirection = context.ReadValue<float>();
@@ -129,19 +142,34 @@ public class PlayerControl : MonoBehaviour
         {
             Colectitem();
             InteractWithDoor();
+            if (isHiding == false)
+            {
+                Hide();
+            }
+            else
+            {
+                currentSpeed = normalSpeed;
+                isHiding = false;
+            }
         }
     }
     public void ReadRunButton(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            currentSpeed = runningSpeed;
-            //isRunning = true;
+            if (isHiding == false)
+            {
+                currentSpeed = runningSpeed;
+                //isRunning = true;
+            }
         }
         else
         {
-            currentSpeed = normalSpeed;
-            //isRunning = false;
+            if (isHiding == false)
+            {
+                currentSpeed = normalSpeed;
+                //isRunning = false;
+            }
         }
     }
     public void ReadCameraMovement(InputAction.CallbackContext context)

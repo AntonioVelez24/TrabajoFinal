@@ -3487,7 +3487,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 303625c6e8a5e0f4781edcaf9cb5b34d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5489,7 +5489,12 @@ PrefabInstance:
       value: Casa Proyecto - Velez
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -1809278360469723325, guid: 2c3422f25d54ffc4982d9b35a298761b, type: 3}
+    - {fileID: -7945566464505814556, guid: 2c3422f25d54ffc4982d9b35a298761b, type: 3}
+    - {fileID: -4968596074947205642, guid: 2c3422f25d54ffc4982d9b35a298761b, type: 3}
+    - {fileID: -5309229520983438335, guid: 2c3422f25d54ffc4982d9b35a298761b, type: 3}
+    - {fileID: -2917118976797415121, guid: 2c3422f25d54ffc4982d9b35a298761b, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c3422f25d54ffc4982d9b35a298761b, type: 3}

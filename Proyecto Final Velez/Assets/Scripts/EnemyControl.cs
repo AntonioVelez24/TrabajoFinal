@@ -8,9 +8,12 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private float detectionRange;
     [SerializeField] private float detectionAngle;
     [SerializeField] private Transform detectedPlayer;
+    [SerializeField] private PlayerControl playerControl;
     //[SerializeField] private float enemyDamage;
-    private float patrolSpeed = 12;
-    private float chaseSpeed = 20;
+
+    private AudioSource _audioSource;
+    private float patrolSpeed = 6;
+    private float chaseSpeed = 10;
     private NavMeshAgent agent;
     private Vector3 positionToMove;
     private int currentPoint = 0;
@@ -18,17 +21,18 @@ public class EnemyControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();        
     }
 
     // Update is called once per frame
     void Update()
     {        
-        if (isPlayerDetected)
+        if (isPlayerDetected == true)
         {
             ChasePlayer();
         }
-        else
+        else if (isPlayerDetected == false)
         {
             Patrol();
             DetectPlayer();
@@ -59,18 +63,28 @@ public class EnemyControl : MonoBehaviour
 
         if (distanceToPlayer <= detectionRange && angleToPlayer <= detectionAngle)
         {
-            isPlayerDetected = true;
-            agent.speed = chaseSpeed;
+            if (playerControl.isHiding == false)
+            {
+                isPlayerDetected = true;                
+                agent.speed = chaseSpeed;
+                _audioSource.Play();
+            }              
         }
-        //else
-        //{
-            //isPlayerDetected = false;
-        //}
+        else if (playerControl.isHiding == true)
+        {
+            isPlayerDetected = false;
+        }
     }
     private void ChasePlayer()
-    {
+    {        
         Vector3 direction = detectedPlayer.position - transform.position;
-
-        agent.SetDestination(detectedPlayer.position);
+        if (playerControl.isHiding == false)
+        {
+            agent.SetDestination(detectedPlayer.position);
+        }
+        else if (playerControl.isHiding == true)
+        {
+            Patrol();
+        }
     }
 }
