@@ -51,13 +51,6 @@ public class Game_Manager : MonoBehaviour
     }
     public void ExitGame()
     {
-        if (Application.isEditor)
-        {
-            UnityEditor.EditorApplication.isPlaying = false;
-        }
-        else
-        {
-            Application.Quit();
-        }
+        Application.Quit();
     }
 }

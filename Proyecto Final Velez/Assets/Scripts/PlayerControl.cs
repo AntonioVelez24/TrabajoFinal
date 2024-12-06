@@ -6,7 +6,7 @@ public class PlayerControl : MonoBehaviour
 {
     [SerializeField] public float playerHealth;
     [SerializeField] private float currentSpeed;
-    [SerializeField] private float energy;
+    [SerializeField] public float energy;
     [SerializeField] private float cameraSensitivity;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Light playerLight;
@@ -21,6 +21,7 @@ public class PlayerControl : MonoBehaviour
     private float zDirection;
     private Rigidbody _rigidbody;
     public bool isHiding = false;
+    public UIControl _UI;
     //private bool isRunning = false;
     private RaycastHit hit;
 
@@ -78,7 +79,7 @@ public class PlayerControl : MonoBehaviour
         currentYRotation = cameraXMovement.x;
         transform.Rotate(Vector3.up * currentYRotation * cameraSensitivity * Time.deltaTime);
     }
-    private void LockCursor()
+    public void LockCursor()
     {
         if (Cursor.lockState != CursorLockMode.Locked)
         {
@@ -86,7 +87,7 @@ public class PlayerControl : MonoBehaviour
             Cursor.visible = false;
         }
     }
-    private void UnlockCursor()
+    public void UnlockCursor()
     {
     Cursor.lockState = CursorLockMode.None;
     Cursor.visible = true;
@@ -182,6 +183,13 @@ public class PlayerControl : MonoBehaviour
         if(context.performed)
         {
             playerLight.enabled = !playerLight.enabled;
+        }
+    }
+    public void ReadPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            _UI.SetPausePanel();
         }
     }
     private void OnTriggerEnter(Collider collision)

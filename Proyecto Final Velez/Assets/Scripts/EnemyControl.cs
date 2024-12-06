@@ -78,12 +78,10 @@ public class EnemyControl : MonoBehaviour
     private void ChasePlayer()
     {        
         Vector3 direction = detectedPlayer.position - transform.position;
-        if (playerControl.isHiding == false)
+        agent.SetDestination(detectedPlayer.position);       
+        if (playerControl.isHiding == true)
         {
-            agent.SetDestination(detectedPlayer.position);
-        }
-        else if (playerControl.isHiding == true)
-        {
+            isPlayerDetected = false;
             Patrol();
         }
     }
