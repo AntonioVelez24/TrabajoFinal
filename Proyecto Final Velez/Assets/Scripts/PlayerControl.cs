@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] public float energy;
     [SerializeField] private float cameraSensitivity;
     [SerializeField] private Camera playerCamera;
+    [SerializeField] private GameObject playerGun;
     [SerializeField] private Light playerLight;
     [SerializeField] private AudioSource _audioSource;
     private float currentYRotation = 0f;
