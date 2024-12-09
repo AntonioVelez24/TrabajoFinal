@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEngine.SocialPlatforms.Impl;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] public float playerHealth;
@@ -12,6 +13,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject playerGun;
     [SerializeField] private Light playerLight;
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private GameObject objectList;
     private float currentYRotation = 0f;
     private float currentXRotation = 0f;
 
@@ -23,8 +25,9 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody _rigidbody;
     public bool isHiding = false;
     public UIControl _UI;
-    //private bool isRunning = false;
+    private bool isRunning = false;
     private RaycastHit hit;
+    private bool OpenList = false;
 
     public event Action<Vector2> OnCameraMovement;
 
@@ -51,7 +54,15 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-        MovePlayer();            
+        MovePlayer();
+        if (isRunning)
+        {
+            DecreaseEnergy();
+        }
+        else
+        {
+            RechargeEnergy();
+        }
     }
     private void MovePlayer()
     {       
@@ -104,6 +115,24 @@ public class PlayerControl : MonoBehaviour
                 interactable.Interact();
                 Game_Manager.Instance.score += 100;
             }
+        }
+    }
+    private void DecreaseEnergy()
+    {
+        energy -= 1f * Time.deltaTime;
+
+        if (energy < 0)
+        {
+            energy = 0;
+        }
+    }
+    private void RechargeEnergy()
+    {
+        energy += energy * Time.deltaTime;
+
+        if (energy >= 30)
+        {
+            energy = 30;
         }
     }
     private void InteractWithDoor()
@@ -162,7 +191,7 @@ public class PlayerControl : MonoBehaviour
             if (isHiding == false)
             {
                 currentSpeed = runningSpeed;
-                //isRunning = true;
+                isRunning = true;
             }
         }
         else
@@ -170,7 +199,7 @@ public class PlayerControl : MonoBehaviour
             if (isHiding == false)
             {
                 currentSpeed = normalSpeed;
-                //isRunning = false;
+                isRunning = false;
             }
         }
     }
@@ -193,13 +222,30 @@ public class PlayerControl : MonoBehaviour
             _UI.SetPausePanel();
         }
     }
+    public void ReadOpenList(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (OpenList == false)
+            {
+                OpenList = true;
+                objectList.SetActive(true);
+            }
+            else
+            {
+                OpenList = false;
+                objectList.SetActive(false);
+            }
+        }
+    }
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             playerHealth = playerHealth - 1f;
+            Game_Manager.Instance.score = Game_Manager.Instance.score - 10;
             if (playerHealth <= 0)
-            {
+            {                
                 Game_Manager.Instance.GameOver();
                 UnlockCursor();
             }

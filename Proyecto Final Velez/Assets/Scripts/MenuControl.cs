@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
 using DG.Tweening;
+using Unity.VisualScripting.Antlr3.Runtime;
+using System.Collections;
 
 public class MenuControl : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class MenuControl : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera startCamera;
     [SerializeField] private CinemachineVirtualCamera virtualCamera1;
     [SerializeField] private CinemachineVirtualCamera virtualCamera2;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera3;
 
     [SerializeField] private GameObject audioPanel;
     [SerializeField] private GameObject exitPanel;
@@ -18,12 +21,15 @@ public class MenuControl : MonoBehaviour
     [SerializeField] private CanvasGroup darkPanel;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource thunderSource;
+    [SerializeField] private Transform door1;
+    [SerializeField] private Transform door2;
 
 
     [SerializeField] private Light stormLight;
     [SerializeField] private AnimationCurve customCurve;
 
     private bool startingGame = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +58,17 @@ public class MenuControl : MonoBehaviour
             }
         }
     
+    }
+    public IEnumerator Play()
+    {
+        menuCamera.Priority = 0;
+        virtualCamera3.Priority = 100;
+        yield return new WaitForSeconds(2f);
+        Game_Manager.Instance.Play();
+    }
+    public void PlayGame()
+    {
+        StartCoroutine(Play());
     }
     public void OpenExitPanel()
     {

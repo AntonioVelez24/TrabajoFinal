@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIControl : MonoBehaviour
 {
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private TextMeshProUGUI energyText;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private Image energyBar;
     private PlayerControl playerControl;
     private bool IsPaused = false;
     // Start is called before the first frame update
@@ -44,11 +45,11 @@ public class UIControl : MonoBehaviour
     }
     private void UpdateHealthBar()
     {
-        healthText.text = "Health: " + playerControl.playerHealth.ToString();
+        healthBar.fillAmount = playerControl.playerHealth /15; 
     }
     private void UpdateEnergyBar()
     {
-        energyText.text = "Energy: " + playerControl.energy.ToString();
+        energyBar.fillAmount = playerControl.energy /30;
     }
     private void UpdateInventory()
     {
