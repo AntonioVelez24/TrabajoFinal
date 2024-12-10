@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
-using UnityEngine.SocialPlatforms.Impl;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] public float playerHealth;
@@ -13,7 +12,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject playerGun;
     [SerializeField] private Light playerLight;
     [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private GameObject objectList;
+
     private float currentYRotation = 0f;
     private float currentXRotation = 0f;
 
@@ -27,7 +26,7 @@ public class PlayerControl : MonoBehaviour
     public UIControl _UI;
     private bool isRunning = false;
     private RaycastHit hit;
-    private bool OpenList = false;
+    public ItemManager itemManager;
 
     public event Action<Vector2> OnCameraMovement;
 
@@ -55,11 +54,11 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         MovePlayer();
-        if (isRunning)
+        if (isRunning == true)
         {
             DecreaseEnergy();
         }
-        else
+        if (isRunning == false) 
         {
             RechargeEnergy();
         }
@@ -114,6 +113,7 @@ public class PlayerControl : MonoBehaviour
             {                
                 interactable.Interact();
                 Game_Manager.Instance.score += 100;
+                itemManager.OnItemDestroyed();
             }
         }
     }
@@ -128,9 +128,9 @@ public class PlayerControl : MonoBehaviour
     }
     private void RechargeEnergy()
     {
-        energy += energy * Time.deltaTime;
+        energy += 1f * Time.deltaTime;
 
-        if (energy >= 30)
+        if (energy > 30)
         {
             energy = 30;
         }
@@ -226,16 +226,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (context.performed)
         {
-            if (OpenList == false)
-            {
-                OpenList = true;
-                objectList.SetActive(true);
-            }
-            else
-            {
-                OpenList = false;
-                objectList.SetActive(false);
-            }
+            _UI.UpdateInventory();
         }
     }
     private void OnTriggerEnter(Collider collision)

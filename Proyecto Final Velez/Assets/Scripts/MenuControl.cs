@@ -1,8 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using Cinemachine;
 using DG.Tweening;
-using Unity.VisualScripting.Antlr3.Runtime;
 using System.Collections;
 
 public class MenuControl : MonoBehaviour
@@ -16,6 +14,7 @@ public class MenuControl : MonoBehaviour
     [SerializeField] private GameObject audioPanel;
     [SerializeField] private GameObject exitPanel;
     [SerializeField] private GameObject startText;
+    [SerializeField] private GameObject creditsPanel;
 
     [SerializeField] private CanvasGroup mainMenu;
     [SerializeField] private CanvasGroup darkPanel;
@@ -116,5 +115,13 @@ public class MenuControl : MonoBehaviour
         stormSequence.Append(stormLight.DOIntensity(0f, 0.4f).SetEase(customCurve));
         thunderSource.Play();
         stormSequence.Play();
+    }
+    public void OpenCredits()
+    {
+        creditsPanel.SetActive(true);
+    }
+    public void CloseCredits()
+    {
+        creditsPanel.SetActive(false);
     }
 }

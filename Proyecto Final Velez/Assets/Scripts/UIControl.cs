@@ -7,9 +7,11 @@ public class UIControl : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private Image healthBar;
-    [SerializeField] private Image energyBar;
+    [SerializeField] private GameObject objectList;
+    [SerializeField] private GameObject listText;
     private PlayerControl playerControl;
     private bool IsPaused = false;
+    private bool ListActive = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +22,6 @@ public class UIControl : MonoBehaviour
     {
         UpdateHealthBar();
         UpdateScoreText();
-        UpdateEnergyBar();
     }
     public void SetPausePanel()
     {
@@ -47,12 +48,19 @@ public class UIControl : MonoBehaviour
     {
         healthBar.fillAmount = playerControl.playerHealth /15; 
     }
-    private void UpdateEnergyBar()
+    public void UpdateInventory()
     {
-        energyBar.fillAmount = playerControl.energy /30;
-    }
-    private void UpdateInventory()
-    {
-
+        if(ListActive == false)
+        {
+            objectList.SetActive(true);
+            listText.SetActive(false);
+            ListActive = true;
+        }
+        else if (ListActive == true)
+        {
+            objectList.SetActive(false);
+            listText.SetActive(true);
+            ListActive = false;
+        }
     }
 }
